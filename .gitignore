@@ -1,0 +1,8 @@
+# Data files
+data
+
+# OS Generated files
+.DS_STORE
+
+# VSCode files
+*.code-workspace
