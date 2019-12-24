@@ -10,7 +10,7 @@ class ProducerServer(KafkaProducer):
         self.input_file = input_file
         self.topic = topic
 
-    # TODO we're generating a dummy data
+    # TODO we're generating a dummy data (DONE)
     def generate_data(self):
         with open(self.input_file) as f:
             for line in f:
