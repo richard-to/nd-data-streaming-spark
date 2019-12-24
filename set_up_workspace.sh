@@ -45,6 +45,7 @@ libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl;
 
 # Install PyEnv
 curl https://pyenv.run | bash;
+source ~/.bashrc;
 pyenv install 3.7.2;
 pyenv global 3.7.2;
 pyenv rehash;
