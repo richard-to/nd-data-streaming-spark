@@ -3,10 +3,12 @@
 ## Download Spark (2.4.4 with Hadoop 2.7)
 
 - https://www.apache.org/dyn/closer.lua/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
+- Unzip to repository `dev` folder
 
 ## Download Kafka (2.3.0 with Scala 2.11)
 
 - https://kafka.apache.org/downloads
+- Unzip to repository `dev` folder
 
 ## Start Vagrant
 
