@@ -7,6 +7,9 @@ data
 # OS Generated files
 .DS_STORE
 
+# Python Generated files
+__pycache__
+
 # Vagrant
 .vagrant
 
