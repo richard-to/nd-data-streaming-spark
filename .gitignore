@@ -4,5 +4,12 @@ data
 # OS Generated files
 .DS_STORE
 
+# Spark binary
+spark-2.4.4-bin-hadoop2.7
+
+# Vagrant
+.vagrant
+
 # VSCode files
 *.code-workspace
+
