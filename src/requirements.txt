@@ -1,4 +1,5 @@
 findspark
+kafka-python
+pathlib
 pyspark
 python-dateutil
-pathlib
