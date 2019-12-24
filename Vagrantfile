@@ -10,7 +10,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: "172.31.1.20"
 
   config.vm.network "forwarded_port", guest: 9092, host: 9092  # Kafka
-  config.vm.network "forwarded_port", guest: 8081, host: 8081  # Schema Registry
 
   config.ssh.forward_agent = true
 
