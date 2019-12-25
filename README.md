@@ -22,7 +22,9 @@ vagrant ssh
 Add the following lines to the end of `/home/vagrant/.bashrc`
 
 ```
-export PATH="/vagrant/dev/spark-2.4.4-bin-hadoop2.7/bin:/home/vagrant/.pyenv/bin:$PATH"
+export SPARK_HOME=/vagrant/dev/spark-2.4.4-bin-hadoop2.7
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH="$JAVA_HOME/bin:$SPARK_HOME/bin:/home/vagrant/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 ```

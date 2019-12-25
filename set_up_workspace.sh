@@ -2,7 +2,7 @@
 
 # Install JDK and Scala
 sudo apt-get update;
-sudo apt-get install default-jdk;
+sudo apt-get install openjdk-8-jdk;
 sudo apt-get install scala;
 
 
