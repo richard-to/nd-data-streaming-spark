@@ -1,6 +1,6 @@
 # Data Files
 CRIME_DATA = "../data/police-department-calls-for-service.json"
-RADIO_CODES = "../data/radio_code.sjon"
+RADIO_CODES = "../data/radio_code.json"
 
 # Kafka
 KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
