@@ -46,19 +46,16 @@ def run_spark_job(spark):
 
     # TODO extract the correct column from the kafka input resources
     # Take only value and convert it to String
-    kafka_df = df.selectExpr("CAST(value as string)")
+    kafka_df = df.selectExpr("CAST(value as string)", "timestamp")
 
     service_table = kafka_df \
-        .select(psf.from_json(psf.col('value'), schema).alias("DF")) \
-        .select("DF.*")
+        .select(psf.from_json(psf.col('value'), schema).alias("DF"), "timestamp") \
+        .select("DF.*", "timestamp")
 
     # TODO select original_crime_type_name and disposition (DONE)
-    distinct_table = service_table.select("original_crime_type_name", "disposition")
-
-    # count the number of original crime type
-    # NOTE: I added the disposition column to the group by in order for the join to work
-    #       It was unclear from the instructions if that was what I was supposed to do
-    agg_df = distinct_table.groupBy("original_crime_type_name", "disposition").count()
+    distinct_table = service_table \
+        .select("original_crime_type_name", "disposition", "timestamp") \
+        .withWatermark("timestamp", "10 seconds")
 
     # TODO get the right radio code json path (DONE)
     radio_code_json_filepath = settings.RADIO_CODES
@@ -71,10 +68,13 @@ def run_spark_job(spark):
     radio_code_df = radio_code_df.withColumnRenamed("disposition_code", "disposition")
 
     # TODO join on disposition column (DONE)
-    join_query = agg_df.join(radio_code_df, "disposition")
+    join_query = distinct_table.join(radio_code_df, "disposition")
+
+    # count the number of original crime type
+    agg_df = join_query.groupBy("original_crime_type_name", "disposition").count()
 
     # NOTE: I moved the writeStream to the end so that the join would be appied
-    query = join_query \
+    query = agg_df \
         .writeStream \
         .format("console") \
         .trigger(processingTime="120 seconds") \
