@@ -93,3 +93,43 @@ If not, exit vagrant and ssh in again. This should update the path.
 cd /vagrant
 pip install -r src/requirements.txt
 ```
+
+
+# Running Project
+
+## SSH into VM
+
+```
+vagrant ssh
+```
+
+## Start Zookeeper
+
+```
+tmux new -s zookeeper
+cd /vagrant/dev/kafka*;
+bin/zookeeper-server-start.sh config/zookeeper.properties;
+```
+
+## Start Kafka
+
+```
+tmux new -s kafka
+cd /vagrant/dev/kafka*;
+bin/kafka-server-start.sh config/server.properties;
+```
+
+## Run Kafka Server
+
+```
+tmux new -s server
+cd /vagrant/src;
+python kafka_server.py;
+```
+
+## Run Spark Job
+
+```
+cd /vagrant/src;
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 --master local[*] data_stream.py
+```
