@@ -56,20 +56,9 @@ def run_spark_job(spark):
     distinct_table = service_table.select("original_crime_type_name", "disposition")
 
     # count the number of original crime type
-    agg_df = distinct_table.groupBy("original_crime_type_name").count()
-
-    # TODO Q1. Submit a screen shot of a batch ingestion of the aggregation
-    # TODO write output stream (DONE)
-    query = agg_df \
-        .writeStream \
-        .format("console") \
-        .trigger(processingTime="10 seconds") \
-        .outputMode("Complete") \
-        .option("truncate", "false") \
-        .start()
-
-    # TODO attach a ProgressReporter (DONE)
-    query.awaitTermination()
+    # NOTE: I added the disposition column to the group by in order for the join to work
+    #       It was unclear from the instructions if that was what I was supposed to do
+    agg_df = distinct_table.groupBy("original_crime_type_name", "disposition").count()
 
     # TODO get the right radio code json path (DONE)
     radio_code_json_filepath = settings.RADIO_CODES
@@ -84,7 +73,17 @@ def run_spark_job(spark):
     # TODO join on disposition column (DONE)
     join_query = agg_df.join(radio_code_df, "disposition")
 
-    join_query.awaitTermination()
+    # NOTE: I moved the writeStream to the end so that the join would be appied
+    query = join_query \
+        .writeStream \
+        .format("console") \
+        .trigger(processingTime="120 seconds") \
+        .outputMode("Complete") \
+        .option("truncate", "false") \
+        .start()
+
+    # TODO attach a ProgressReporter (DONE)
+    query.awaitTermination()
 
 
 if __name__ == "__main__":
