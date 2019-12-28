@@ -94,6 +94,11 @@ if __name__ == "__main__":
         .builder \
         .master("local[*]") \
         .appName("KafkaSparkStructuredStreaming") \
+        .config("spark.executor.memory", "1g") \
+        .config("spark.python.worker.memory", "512m") \
+        .config("spark.memory.fraction", "1.0") \
+        .config("spark.memory.storageFraction", "0.5") \
+        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .getOrCreate()
 
     logger.info("Spark started")
